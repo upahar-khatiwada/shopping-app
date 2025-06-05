@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/display_error_message.dart';
+import 'package:shopping_app/login_components/login_screens/login_screens_constants/const_var.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/display_error_message.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/main.dart';

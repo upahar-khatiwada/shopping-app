@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_app/Screens/login_screens/forgot_password_page.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/sign_up_with_facebook.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/sign_up_with_google.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/sign_up_with_twitter.dart';
+import 'package:shopping_app/login_components/login_screens/forgot_password_page.dart';
+import 'package:shopping_app/login_components/login_screens/login_screens_constants/const_var.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/sign_up_with_facebook.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/sign_up_with_google.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/sign_up_with_twitter.dart';
 import 'package:shopping_app/main.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/display_error_message.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/display_error_message.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -122,7 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       hintText: 'E-mail',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: const Icon(Icons.mail),
+                      prefixIcon: Icon(
+                        Icons.mail,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                       filled: true,
                       fillColor: fillColor,
                     ),
@@ -150,7 +153,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignLabelWithHint: true,
                       hintText: 'Password',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: const Icon(Icons.password),
+                      prefixIcon: Icon(
+                        Icons.password,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -158,8 +164,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         },
                         icon: isObscureText
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
+                            ? Icon(
+                                Icons.visibility,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inversePrimary,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inversePrimary,
+                              ),
                       ),
                     ),
                     obscureText: isObscureText,
@@ -227,7 +243,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Expanded(
                         child: Divider(
-                          color: dividerColor,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          // color: Colors.black87,
                           indent: 3,
                           endIndent: 3,
                         ),
@@ -241,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Expanded(
                         child: Divider(
-                          color: dividerColor,
+                          color: Theme.of(context).colorScheme.inversePrimary,
                           indent: 3,
                           endIndent: 3,
                         ),

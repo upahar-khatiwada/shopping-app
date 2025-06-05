@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
+import 'package:shopping_app/login_components/login_screens/login_screens_constants/const_var.dart';
 
 void displayErrorMessage(String message, String error, BuildContext context) {
   // this schedules a callback to run after current frame is done rendering

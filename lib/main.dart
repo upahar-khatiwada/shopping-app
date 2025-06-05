@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/Screens/login_screens/auth_page.dart';
-import 'package:shopping_app/Screens/login_screens/email_verification_page.dart';
+import 'package:shopping_app/login_components/login_screens/auth_page.dart';
+import 'package:shopping_app/login_components/login_screens/email_verification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_page.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_page.dart';
+import 'package:shopping_app/themes/theme_provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -13,7 +15,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: '.env');
-  runApp(const MyApp());
+  await Hive.initFlutter();
+  await Hive.openBox('shopping_theme');
+  runApp(
+    ChangeNotifierProvider<ThemeProvider>(
+      create: (BuildContext context) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
+      theme: Provider.of<ThemeProvider>(context).themeData,
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => const AuthPage(),
@@ -32,11 +42,6 @@ class MyApp extends StatelessWidget {
         '/verification': (BuildContext context) =>
             const EmailVerificationPage(),
       },
-      theme: ThemeData(
-        scaffoldBackgroundColor: bgColor,
-        appBarTheme: const AppBarTheme(color: bgColor, elevation: 0),
-        splashColor: splashColor,
-      ),
     );
   }
 }

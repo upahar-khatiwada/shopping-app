@@ -4,8 +4,8 @@ import 'package:twitter_login/twitter_login.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/main.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/display_error_message.dart';
+import 'package:shopping_app/login_components/login_screens/login_screens_constants/const_var.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/display_error_message.dart';
 
 // function to sign in using twitter
 Future<OAuthCredential?> signInWithTwitter(BuildContext context) async {

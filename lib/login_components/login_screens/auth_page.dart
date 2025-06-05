@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_app/Screens/home_page.dart';
-import 'package:shopping_app/Screens/login_screens/email_verification_page.dart';
-import 'package:shopping_app/Screens/login_screens/login_page.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
-import 'package:logger/logger.dart';
+import 'package:shopping_app/pages/home_page.dart';
+import 'package:shopping_app/login_components/login_screens/email_verification_page.dart';
+import 'package:shopping_app/login_components/login_screens/login_page.dart';
+import 'package:shopping_app/login_components/login_screens/login_screens_constants/const_var.dart';
+// import 'package:logger/logger.dart';
 
-final Logger logger = Logger();
+// final Logger logger = Logger();
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -31,7 +31,7 @@ class AuthPage extends StatelessWidget {
                 .map((UserInfo p) => p.providerId)
                 .toList();
 
-            logger.i(providers);
+            // logger.i(providers);
 
             // checking for sign up method
             if (providers.contains('password') && !user.emailVerified) {

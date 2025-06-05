@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_app/Screens/home_page.dart';
-import 'package:shopping_app/Screens/login_screens/login_screens_constants/const_var.dart';
-import 'package:shopping_app/Screens/login_screens/sign_up_helper_methods/display_error_message.dart';
-import 'package:shopping_app/Screens/login_screens/login_page.dart';
+import 'package:shopping_app/pages/home_page.dart';
+import 'package:shopping_app/login_components/login_screens/login_screens_constants/const_var.dart';
+import 'package:shopping_app/login_components/login_screens/sign_up_helper_methods/display_error_message.dart';
+import 'package:shopping_app/login_components/login_screens/login_page.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   const EmailVerificationPage({super.key});
