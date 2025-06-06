@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           child: IntrinsicWidth(
@@ -122,15 +123,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       hintText: 'E-mail',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: Icon(
-                        Icons.mail,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
+                      prefixIcon: const Icon(Icons.mail, color: Colors.black),
                       filled: true,
                       fillColor: fillColor,
                     ),
+                    style: const TextStyle(color: Colors.black),
                     controller: emailController,
                     cursorErrorColor: Colors.red,
+                    cursorColor: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -153,9 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignLabelWithHint: true,
                       hintText: 'Password',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.password,
-                        color: Theme.of(context).colorScheme.inversePrimary,
+                        color: Colors.black,
                       ),
                       suffixIcon: IconButton(
                         onPressed: () {
@@ -164,25 +164,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         },
                         icon: isObscureText
-                            ? Icon(
-                                Icons.visibility,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inversePrimary,
-                              )
-                            : Icon(
+                            ? const Icon(Icons.visibility, color: Colors.black)
+                            : const Icon(
                                 Icons.visibility_off,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inversePrimary,
+                                color: Colors.black,
                               ),
                       ),
                     ),
+                    style: const TextStyle(color: Colors.black),
                     obscureText: isObscureText,
                     controller: passwordController,
                     enableSuggestions: false,
                     autofocus: false,
                     cursorErrorColor: Colors.red,
+                    cursorColor: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -238,16 +233,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(12),
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: Divider(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          // color: Colors.black87,
-                          indent: 3,
-                          endIndent: 3,
-                        ),
+                        child: Divider(color: dividerColor, thickness: 1.1),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5),
@@ -258,9 +248,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Expanded(
                         child: Divider(
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: dividerColor,
                           indent: 3,
                           endIndent: 3,
+                          thickness: 1.1,
                         ),
                       ),
                     ],

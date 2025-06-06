@@ -57,7 +57,7 @@ class _SignUpScreenState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(iconTheme: const IconThemeData(color: Colors.black)),
       body: SingleChildScrollView(
         child: IntrinsicWidth(
           stepWidth: 600,
@@ -86,12 +86,14 @@ class _SignUpScreenState extends State<ForgotPasswordPage> {
                       ),
                       hintText: 'Enter your e-mail',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: const Icon(Icons.mail),
+                      prefixIcon: const Icon(Icons.mail, color: Colors.black),
                       filled: true,
                       fillColor: fillColor,
                     ),
+                    style: const TextStyle(color: Colors.black),
                     controller: forgotEmailController,
                     cursorErrorColor: Colors.red,
+                    cursorColor: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 15),

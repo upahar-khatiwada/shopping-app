@@ -113,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(iconTheme: const IconThemeData(color: Colors.black)),
       body: Center(
         child: SingleChildScrollView(
           child: IntrinsicWidth(
@@ -146,12 +146,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       hintText: 'E-mail',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: const Icon(Icons.mail),
+                      prefixIcon: const Icon(Icons.mail, color: Colors.black),
                       filled: true,
                       fillColor: fillColor,
                     ),
+                    style: const TextStyle(color: Colors.black),
                     controller: signUpEmailController,
                     cursorErrorColor: Colors.red,
+                    cursorColor: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -175,7 +177,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       alignLabelWithHint: true,
                       hintText: 'Password',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: const Icon(Icons.password),
+                      prefixIcon: const Icon(
+                        Icons.password,
+                        color: Colors.black,
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -183,13 +188,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           });
                         },
                         icon: isObscureTextPassword
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
+                            ? const Icon(Icons.visibility, color: Colors.black)
+                            : const Icon(
+                                Icons.visibility_off,
+                                color: Colors.black,
+                              ),
                       ),
                     ),
+                    style: const TextStyle(color: Colors.black),
                     obscureText: isObscureTextPassword,
                     controller: signUpPasswordController,
                     cursorErrorColor: Colors.red,
+                    cursorColor: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -213,7 +223,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       alignLabelWithHint: true,
                       hintText: 'Confirm Password',
                       hintStyle: TextStyle(color: hintTextColor),
-                      prefixIcon: const Icon(Icons.password_sharp),
+                      prefixIcon: const Icon(
+                        Icons.password_sharp,
+                        color: Colors.black,
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -222,13 +235,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           });
                         },
                         icon: isObscureTextPasswordConfirm
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
+                            ? const Icon(Icons.visibility, color: Colors.black)
+                            : const Icon(
+                                Icons.visibility_off,
+                                color: Colors.black,
+                              ),
                       ),
                     ),
+                    style: const TextStyle(color: Colors.black),
                     obscureText: isObscureTextPasswordConfirm,
                     controller: signUpPasswordConfirmController,
                     cursorErrorColor: Colors.red,
+                    cursorColor: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 40),
