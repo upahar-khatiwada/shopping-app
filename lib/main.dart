@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:shopping_app/login_components/login_screens/auth_page.dart';
 import 'package:shopping_app/login_components/login_screens/email_verification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,6 +9,7 @@ import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shopping_app/models/cart_model.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -18,8 +20,15 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('shopping_theme');
   runApp(
-    ChangeNotifierProvider<ThemeProvider>(
-      create: (BuildContext context) => ThemeProvider(),
+    MultiProvider(
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (BuildContext context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider<CartModel>(
+          create: (BuildContext context) => CartModel(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
@@ -37,7 +46,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => const AuthPage(),
-        // '/login': (BuildContext context) => const LoginScreen(),
         '/signup': (BuildContext context) => const SignUpScreen(),
         '/verification': (BuildContext context) =>
             const EmailVerificationPage(),
