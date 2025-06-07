@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+Function(BuildContext)? deleteFunction;
+
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
@@ -101,105 +103,120 @@ class CartPage extends StatelessWidget {
                       return ListView.builder(
                         itemCount: cart.itemCount,
                         itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            color: Theme.of(context).colorScheme.secondary,
-                            elevation: 2.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              cart.items[index].productName,
-                                              style: TextStyle(
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.inversePrimary,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              '\$ ${(cart.items[index].price * cart.items[index].itemQuantity)}',
-                                              style: const TextStyle(
-                                                color: Colors.orange,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              'Quantity: ${cart.items[index].itemQuantity}',
-                                              style: TextStyle(
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.inversePrimary,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: <Widget>[
-                                                IconButton(
-                                                  onPressed: () {
-                                                    cart.decreaseItemQuantity(
-                                                      cart.items[index],
-                                                    );
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.remove,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .inversePrimary,
-                                                  ),
+                          return Slidable(
+                            endActionPane: ActionPane(
+                              motion: const StretchMotion(),
+                              children: <Widget>[
+                                SlidableAction(
+                                  onPressed: (BuildContext context) {
+                                    cart.removeItem(cart.items[index]);
+                                  },
+                                  icon: Icons.delete,
+                                  backgroundColor: Colors.red,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ],
+                            ),
+                            child: Card(
+                              color: Theme.of(context).colorScheme.secondary,
+                              elevation: 2.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                cart.items[index].productName,
+                                                style: TextStyle(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.inversePrimary,
+                                                  fontSize: 20,
                                                 ),
-                                                Text(
-                                                  '1',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .inversePrimary,
-                                                  ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                '\$ ${(cart.items[index].price * cart.items[index].itemQuantity)}',
+                                                style: const TextStyle(
+                                                  color: Colors.orange,
                                                 ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    cart.increaseItemQuantity(
-                                                      cart.items[index],
-                                                    );
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.add,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .inversePrimary,
-                                                  ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                'Quantity: ${cart.items[index].itemQuantity}',
+                                                style: TextStyle(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.inversePrimary,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
                                                 ),
-                                              ],
-                                            ),
-                                          ],
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      cart.decreaseItemQuantity(
+                                                        cart.items[index],
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.remove,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .inversePrimary,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '1',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .inversePrimary,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      cart.increaseItemQuantity(
+                                                        cart.items[index],
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.add,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .inversePrimary,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      SizedBox(
-                                        height: 100,
-                                        width: 150,
-                                        child: Image.asset(
-                                          cart.items[index].imagePath,
-                                          fit: BoxFit.cover,
+                                        const SizedBox(width: 8.0),
+                                        SizedBox(
+                                          height: 100,
+                                          width: 150,
+                                          child: Image.asset(
+                                            cart.items[index].imagePath,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                ],
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
                             ),
                           );
