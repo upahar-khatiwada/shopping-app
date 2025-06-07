@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/models/products.dart';
+import 'package:shopping_app/models/products_class.dart';
 
 class ProductsCard extends StatelessWidget {
   final ProductsClass productsClass;
-  final void Function() onPressed;
+  final void Function() onPressedAddToCartButton;
   final VoidCallback onPressedCard;
   const ProductsCard({
     super.key,
     required this.productsClass,
-    required this.onPressed,
+    required this.onPressedAddToCartButton,
     required this.onPressedCard,
   });
 
@@ -59,7 +59,7 @@ class ProductsCard extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: onPressed,
+                          onPressed: onPressedAddToCartButton,
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             shape: RoundedRectangleBorder(

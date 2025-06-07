@@ -7,6 +7,7 @@ class ProductsClass {
   late final String warranty;
   late final String deliveryTime;
   late final String sellerName;
+  int itemQuantity;
 
   ProductsClass({
     required this.productName,
@@ -17,5 +18,16 @@ class ProductsClass {
     required this.warranty,
     required this.deliveryTime,
     required this.sellerName,
+    required this.itemQuantity,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProductsClass &&
+          runtimeType == other.runtimeType &&
+          productName == other.productName;
+
+  @override
+  int get hashCode => productName.hashCode;
 }

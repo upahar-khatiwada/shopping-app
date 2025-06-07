@@ -1,4 +1,4 @@
-import 'package:shopping_app/models/products.dart';
+import 'package:shopping_app/models/products_class.dart';
 
 class ProductsList {
   final List<ProductsClass> _products = <ProductsClass>[
@@ -12,6 +12,7 @@ class ProductsList {
       warranty: '1 year Available',
       deliveryTime: '1-2 Days',
       sellerName: 'Samsung Nepal',
+      itemQuantity: 0,
     ),
     ProductsClass(
       productName: 'Face Wash',
@@ -23,6 +24,7 @@ class ProductsList {
       warranty: 'No Warranty',
       deliveryTime: '1-2 Days',
       sellerName: 'Lavana',
+      itemQuantity: 0,
     ),
     ProductsClass(
       productName: 'GTA V',
@@ -34,6 +36,7 @@ class ProductsList {
       warranty: 'No Warranty',
       deliveryTime: '5-7 Days',
       sellerName: 'Kunyo',
+      itemQuantity: 0,
     ),
     ProductsClass(
       productName: 'Keyboard',
@@ -45,6 +48,98 @@ class ProductsList {
       warranty: '1 Year Warranty',
       deliveryTime: '3-5 Days',
       sellerName: 'Backseat Gaming',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Wireless Earbuds',
+      description:
+          'Compact and comfortable earbuds with high-fidelity sound and long battery life.',
+      imagePath: 'assets/shopping/earbuds.jpg',
+      price: 120,
+      category: 'Electronics',
+      warranty: '6 Months Warranty',
+      deliveryTime: '2-4 Days',
+      sellerName: 'Mi Store',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Yoga Mat',
+      description:
+          'Non-slip, eco-friendly yoga mat ideal for both beginners and experts.',
+      imagePath: 'assets/shopping/yogamat.jpg',
+      price: 25,
+      category: 'Clothing',
+      warranty: 'No Warranty',
+      deliveryTime: '1-3 Days',
+      sellerName: 'Decathlon',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Blender',
+      description: 'Powerful blender perfect for smoothies, sauces, and soups.',
+      imagePath: 'assets/shopping/blender.webp',
+      price: 60,
+      category: 'Electronics',
+      warranty: '1 Year Warranty',
+      deliveryTime: '2-3 Days',
+      sellerName: 'Philips Nepal',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Bluetooth Speaker',
+      description: 'Portable speaker with rich bass and water resistance.',
+      imagePath: 'assets/shopping/speaker.jpg',
+      price: 75,
+      category: 'Electronics',
+      warranty: '1 Year Warranty',
+      deliveryTime: '2-4 Days',
+      sellerName: 'JBL Store',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Denim Jacket',
+      description: 'Classic denim jacket that pairs well with any outfit.',
+      imagePath: 'assets/shopping/jacket.jpg',
+      price: 45,
+      category: 'Clothing',
+      warranty: 'No Warranty',
+      deliveryTime: '3-5 Days',
+      sellerName: 'H&M Nepal',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Cookware Set',
+      description: 'Durable non-stick cookware set including pans and pots.',
+      imagePath: 'assets/shopping/cookware.jpg',
+      price: 150,
+      category: 'Kitchen',
+      warranty: '2 Years Warranty',
+      deliveryTime: '3-6 Days',
+      sellerName: 'Pigeon',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'LED Desk Lamp',
+      description:
+          'Adjustable LED lamp with touch control and brightness settings.',
+      imagePath: 'assets/shopping/desklamp.jpg',
+      price: 30,
+      category: 'Electronics',
+      warranty: '1 Year Warranty',
+      deliveryTime: '1-3 Days',
+      sellerName: 'IKEA Nepal',
+      itemQuantity: 0,
+    ),
+    ProductsClass(
+      productName: 'Trekking Shoes',
+      description: 'Waterproof shoes designed for hiking and rough terrains.',
+      imagePath: 'assets/shopping/trekkingshoes.jpg',
+      price: 85,
+      category: 'Clothing',
+      warranty: '6 Months Warranty',
+      deliveryTime: '2-5 Days',
+      sellerName: 'North Face',
+      itemQuantity: 0,
     ),
   ];
 
