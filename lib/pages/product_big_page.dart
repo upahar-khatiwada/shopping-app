@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/models/products.dart';
+import 'package:provider/provider.dart';
+import 'package:shopping_app/models/cart_model.dart';
+import 'package:shopping_app/models/products_class.dart';
+
+import 'cart_page.dart';
 
 class ProductBigPage extends StatelessWidget {
   final ProductsClass individualProduct;
@@ -15,12 +19,27 @@ class ProductBigPage extends StatelessWidget {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
+          Consumer<CartModel>(
+            builder: (BuildContext context, CartModel cart, Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<Widget>(
+                      builder: (BuildContext context) => const CartPage(),
+                    ),
+                  );
+                },
+                icon: Badge(
+                  label: Text(cart.totalItemCount.toString()),
+                  backgroundColor: Colors.orange,
+                  child: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -121,45 +140,79 @@ class ProductBigPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
+              Consumer<CartModel>(
+                builder: (BuildContext context, CartModel cart, Widget? child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.remove,
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {
+                              // cart.removeItem(individualProduct);
+                              if (cart.getQuantity(individualProduct) == 1) {
+                                cart.removeItem(individualProduct);
+                              }
+                              cart.decreaseItemQuantity(individualProduct);
+                            },
+                            icon: Icon(
+                              Icons.remove,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                            ),
+                          ),
+                          Text(
+                            '${cart.getQuantity(individualProduct)}',
+                            // '${individualProduct.itemQuantity}',
+                            // '${cart.items[cart.items.indexOf(individualProduct)].itemQuantity}',
+                            style: TextStyle(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              cart.addItem(individualProduct);
+                              cart.increaseItemQuantity(individualProduct);
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text('1'),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                      ElevatedButton(
+                        onPressed: () {
+                          // cart.addItemFromBigScreen(individualProduct);
+                          cart.addItem(individualProduct);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<Widget>(
+                              builder: (BuildContext context) =>
+                                  const CartPage(),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll<Color>(
+                            Theme.of(context).colorScheme.tertiary,
+                          ),
+                        ),
+                        child: Text(
+                          'Add to Cart',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // add to cart logic
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll<Color>(
-                        Theme.of(context).colorScheme.tertiary,
-                      ),
-                    ),
-                    child: Text(
-                      'Add to Cart',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             ],
           ),

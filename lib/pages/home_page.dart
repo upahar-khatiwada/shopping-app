@@ -5,7 +5,7 @@ import 'package:shopping_app/components/drawer.dart';
 import 'package:shopping_app/components/products_card.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/models/product_list.dart';
-import 'package:shopping_app/models/products.dart';
+import 'package:shopping_app/models/products_class.dart';
 import 'package:shopping_app/pages/product_big_page.dart';
 
 import 'cart_page.dart';
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 icon: Badge(
-                  label: Text(cart.itemCount.toString()),
+                  label: Text(cart.totalItemCount.toString()),
                   backgroundColor: Colors.orange,
                   child: Icon(
                     Icons.shopping_cart_outlined,
@@ -141,24 +141,37 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: <Widget>[
-                  CategoriesBuilder(
-                    icon: Icons.phone_android,
-                    text: 'Electronics',
-                    onTap: () {},
-                  ),
-                  CategoriesBuilder(
-                    icon: Icons.face,
-                    text: 'Beauty',
-                    onTap: () {},
-                  ),
-                  CategoriesBuilder(
-                    icon: Icons.sports_esports,
-                    text: 'Games',
-                    onTap: () {},
-                  ),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    CategoriesBuilder(
+                      icon: Icons.phone_android,
+                      text: 'Electronics',
+                      onTap: () {},
+                    ),
+                    CategoriesBuilder(
+                      icon: Icons.face,
+                      text: 'Beauty',
+                      onTap: () {},
+                    ),
+                    CategoriesBuilder(
+                      icon: Icons.sports_esports,
+                      text: 'Games',
+                      onTap: () {},
+                    ),
+                    CategoriesBuilder(
+                      icon: Icons.kitchen,
+                      text: 'Kitchen',
+                      onTap: () {},
+                    ),
+                    CategoriesBuilder(
+                      icon: Icons.checkroom,
+                      text: 'Clothing',
+                      onTap: () {},
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 18),
@@ -186,8 +199,9 @@ class _HomePageState extends State<HomePage> {
                   ) {
                     return ProductsCard(
                       productsClass: product,
-                      onPressed: () {
+                      onPressedAddToCartButton: () {
                         cart.addItem(product);
+                        cart.increaseItemQuantity(product);
                       },
                       onPressedCard: () {
                         Navigator.push(

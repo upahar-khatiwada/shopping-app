@@ -1,20 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/models/products.dart';
+import 'package:shopping_app/models/products_class.dart';
 
 class CartModel extends ChangeNotifier {
   final List<ProductsClass> _items = <ProductsClass>[];
-
+  //getter for getting the list of items
   List<ProductsClass> get items => _items;
 
+  // getter for getting the length of added items
   int get itemCount => _items.length;
 
+  // for individual product's count
+
+  // int? _individualProductCount;
+
+  // int get individualProductCount => _individualProductCount ?? 0;
+
+  int get totalItemCount {
+    int totalCountOfItems = 0;
+    for (ProductsClass item in _items) {
+      totalCountOfItems += item.itemQuantity;
+    }
+    return totalCountOfItems;
+  }
+
+  void setQuantity(ProductsClass product) {}
+
+  int getQuantity(ProductsClass product) {
+    final int index = _items.indexOf(product);
+
+    if (index == -1) return 0;
+    return _items[index].itemQuantity;
+  }
+
+  void increaseItemQuantity(ProductsClass product) {
+    final int index = _items.indexOf(product);
+    if (index != -1) {
+      _items[index].itemQuantity++;
+      notifyListeners();
+    }
+  }
+
+  void decreaseItemQuantity(ProductsClass product) {
+    final int index = _items.indexOf(product);
+    if (index != -1 && _items[index].itemQuantity > 0) {
+      _items[index].itemQuantity--;
+      notifyListeners();
+    }
+  }
+
   void addItem(ProductsClass product) {
-    _items.add(product);
+    if (!_items.contains(product)) {
+      _items.add(product);
+    }
+    // product.itemQuantity++;
+    notifyListeners();
+  }
+
+  void addItemFromBigScreen(ProductsClass product) {
+    if (!_items.contains(product)) {
+      _items.add(product);
+    }
+    // product.itemQuantity++;
     notifyListeners();
   }
 
   void removeItem(ProductsClass product) {
     _items.remove(product);
+    if (product.itemQuantity > 0) {
+      product.itemQuantity--;
+    }
     notifyListeners();
   }
 

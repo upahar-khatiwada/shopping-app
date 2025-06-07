@@ -33,14 +33,20 @@ class SettingsPage extends StatelessWidget {
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                 ),
-                Switch(
-                  value: Provider.of<ThemeProvider>(context).isDarkMode,
-                  onChanged: (bool value) {
-                    Provider.of<ThemeProvider>(
-                      context,
-                      listen: false,
-                    ).toggleTheme();
-                  },
+                Consumer<ThemeProvider>(
+                  builder:
+                      (
+                        BuildContext context,
+                        ThemeProvider themeProvider,
+                        Widget? child,
+                      ) {
+                        return Switch(
+                          value: Provider.of<ThemeProvider>(context).isDarkMode,
+                          onChanged: (bool value) {
+                            themeProvider.toggleTheme();
+                          },
+                        );
+                      },
                 ),
               ],
             ),
