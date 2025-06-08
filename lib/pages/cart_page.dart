@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/components/bottom_app_bar.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -93,7 +94,9 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                 )
-              : Padding(
+              :
+                // const CartPageBottomAppBar(),
+                Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16.0,
                     vertical: 12.0,
@@ -146,6 +149,7 @@ class CartPage extends StatelessWidget {
                                                 '\$ ${(cart.items[index].price * cart.items[index].itemQuantity)}',
                                                 style: const TextStyle(
                                                   color: Colors.orange,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               const SizedBox(height: 4),
@@ -225,6 +229,13 @@ class CartPage extends StatelessWidget {
                     },
                   ),
                 );
+        },
+      ),
+      bottomNavigationBar: Consumer<CartModel>(
+        builder: (BuildContext context, CartModel cart, Widget? child) {
+          return cart.isCartClear
+              ? const SizedBox.shrink()
+              : const CartPageBottomAppBar();
         },
       ),
     );
