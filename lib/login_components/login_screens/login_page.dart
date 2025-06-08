@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 200,
                   width: 150,
                   child: Image.asset(
-                    'assets/default_profile.png',
+                    'assets/login_assets/default_profile.png',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -262,19 +262,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     LoginWith(
-                      assetLocation: 'assets/x.png',
+                      assetLocation: 'assets/login_assets/x.png',
                       onTap: () {
                         signInWithTwitter(context);
                       },
                     ),
                     LoginWith(
-                      assetLocation: 'assets/facebook1.webp',
+                      assetLocation: 'assets/login_assets/facebook1.webp',
                       onTap: () {
                         signInWithFacebook(context);
                       },
                     ),
                     LoginWith(
-                      assetLocation: 'assets/google.webp',
+                      assetLocation: 'assets/login_assets/google.webp',
                       onTap: () {
                         signInWithGoogle(context);
                       },

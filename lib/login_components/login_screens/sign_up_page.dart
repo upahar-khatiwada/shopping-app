@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: 300,
                   height: 200,
                   child: Image.asset(
-                    'assets/sign_up.webp',
+                    'assets/login_assets/sign_up.webp',
                     fit: BoxFit.contain,
                   ),
                 ),

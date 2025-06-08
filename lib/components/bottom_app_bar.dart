@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/models/cart_model.dart';
+import 'package:shopping_app/pages/location_page.dart';
 
 class CartPageBottomAppBar extends StatelessWidget {
   const CartPageBottomAppBar({super.key});
@@ -46,19 +47,7 @@ class CartPageBottomAppBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Text(
-                  //   'Total: \$ $totalPrice',
-                  //   style: TextStyle(
-                  //     color: Theme.of(context).colorScheme.inversePrimary,
-                  //   ),
-                  // ),
                   const SizedBox(height: 2.0),
-                  // Text(
-                  //   'Shipping Fee: \$ 9.99',
-                  //   style: TextStyle(
-                  //     color: Theme.of(context).colorScheme.inversePrimary,
-                  //   ),
-                  // ),
                   RichText(
                     text: TextSpan(
                       children: <TextSpan>[
@@ -83,7 +72,14 @@ class CartPageBottomAppBar extends StatelessWidget {
                 ],
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<Widget>(
+                      builder: (BuildContext context) => const LocationPage(),
+                    ),
+                  );
+                },
                 style: const ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
                 ),
