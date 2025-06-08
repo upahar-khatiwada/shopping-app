@@ -23,8 +23,6 @@ class CartModel extends ChangeNotifier {
     return totalCountOfItems;
   }
 
-  void setQuantity(ProductsClass product) {}
-
   int getQuantity(ProductsClass product) {
     final int index = _items.indexOf(product);
 

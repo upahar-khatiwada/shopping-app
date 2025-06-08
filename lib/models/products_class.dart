@@ -21,12 +21,17 @@ class ProductsClass {
     required this.itemQuantity,
   });
 
+  // operator overloading to declare two product object as equal if they have same names
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ProductsClass &&
           runtimeType == other.runtimeType &&
           productName == other.productName;
+
+  // @override
+  // // TODO: implement hashCode
+  // int get hashCode => super.hashCode;
 
   @override
   int get hashCode => productName.hashCode;
