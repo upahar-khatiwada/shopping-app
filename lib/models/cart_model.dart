@@ -9,12 +9,6 @@ class CartModel extends ChangeNotifier {
   // getter for getting the length of added items
   int get itemCount => _items.length;
 
-  // for individual product's count
-
-  // int? _individualProductCount;
-
-  // int get individualProductCount => _individualProductCount ?? 0;
-
   int get totalItemCount {
     int totalCountOfItems = 0;
     for (ProductsClass item in _items) {

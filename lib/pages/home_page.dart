@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/components/categories_builder.dart';
 import 'package:shopping_app/components/drawer.dart';
@@ -18,21 +19,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late TextEditingController searchController;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    searchController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    searchController.dispose();
-    super.dispose();
-  }
+  final List<String> productNames = ProductsList().products.map((
+    ProductsClass product,
+  ) {
+    return product.productName.toLowerCase();
+  }).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -74,57 +65,127 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: const MyDrawer(),
-      // bottomNavigationBar: const BottomAppBarComponent(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   // backgroundColor: Theme.of(context).colorScheme.tertiary,
-      //   backgroundColor: Colors.orange,
-      //   shape: const CircleBorder(),
-      //   child: IconButton(
-      //     icon: const Icon(
-      //       Icons.home,
-      //       // color: Theme.of(context).colorScheme.inversePrimary,
-      //       color: Colors.white,
-      //     ),
-      //     onPressed: () {},
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search products..',
-                  hintStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  prefixIcon: IconButton(
-                    onPressed: () {
-                      searchController.clear();
+              child: Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  return productNames.where((String productName) {
+                    return productName.contains(
+                      textEditingValue.text.toLowerCase(),
+                    );
+                  });
+                },
+                onSelected: (String selectedProduct) {
+                  final ProductsClass product = ProductsList().products
+                      .firstWhere(
+                        (ProductsClass prod) =>
+                            prod.productName.toLowerCase() ==
+                            selectedProduct.toLowerCase(),
+                      );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<Widget>(
+                      builder: (BuildContext context) =>
+                          ProductBigPage(individualProduct: product),
+                    ),
+                  );
+                },
+                fieldViewBuilder:
+                    (
+                      BuildContext context,
+                      TextEditingController textEditingController,
+                      FocusNode focusNode,
+                      VoidCallback onFieldSubmitted,
+                    ) {
+                      return TextField(
+                        cursorColor: Theme.of(
+                          context,
+                        ).colorScheme.inversePrimary,
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: InputDecoration(
+                          hintText: 'Search products...',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                          prefixIcon: IconButton(
+                            onPressed: () {
+                              textEditingController.clear();
+                            },
+                            icon: Icon(
+                              Icons.search,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.secondary,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                          ),
+                        ),
+                      );
                     },
-                    icon: Icon(
-                      Icons.search,
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                  ),
-                  fillColor: Theme.of(context).colorScheme.surface,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                  ),
-                ),
-                cursorColor: Theme.of(context).colorScheme.inversePrimary,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
+                optionsViewBuilder:
+                    (
+                      BuildContext context,
+                      AutocompleteOnSelected<String> onSelected,
+                      Iterable<String> options,
+                    ) {
+                      return Align(
+                        alignment: Alignment.topLeft,
+                        child: Material(
+                          elevation: 4,
+                          borderRadius: BorderRadius.circular(8),
+                          child: SizedBox(
+                            height:
+                                // list tile's height is 50 pixels
+                                // displays scrollable suggestions if there are over 4 suggestions
+                                (options.length < 4 ? options.length : 4) * 50,
+                            child: ListView.builder(
+                              itemCount: options.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // final String option = options.elementAt(index);
+                                return ListTile(
+                                  tileColor: Theme.of(
+                                    context,
+                                  ).colorScheme.tertiary,
+                                  title: Text(options.elementAt(index)),
+                                  onTap: () {
+                                    onSelected(options.elementAt(index));
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
               ),
             ),
             Padding(

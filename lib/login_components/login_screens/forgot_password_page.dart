@@ -68,7 +68,7 @@ class _SignUpScreenState extends State<ForgotPasswordPage> {
                 SizedBox(
                   height: 400,
                   width: 350,
-                  child: Image.asset('assets/forgot.png'),
+                  child: Image.asset('assets/login_assets/forgot.png'),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
