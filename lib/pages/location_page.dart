@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shopping_app/components/debouncer.dart';
+import 'package:shopping_app/components/de_bouncer.dart';
 import 'package:shopping_app/pages/checkout_page.dart';
 
 class LocationPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _LocationPageState extends State<LocationPage> {
   late String? city;
   late TextEditingController locationSearchController;
   List<String> possibleAutoComplete = <String>[];
-  final DebouncerClass _debouncer = DebouncerClass(milliseconds: 500);
+  final DeBouncerClass _deBouncer = DeBouncerClass(milliseconds: 500);
 
   Future<String> getLocation() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -189,7 +189,7 @@ class _LocationPageState extends State<LocationPage> {
               ),
               onChanged: (String s) {
                 if (s.length > 3) {
-                  _debouncer.run(() {
+                  _deBouncer.run(() {
                     print(s);
                     autoCompleteTest(s);
                   });

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/components/categories_builder.dart';
 import 'package:shopping_app/components/drawer.dart';
@@ -8,7 +7,6 @@ import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/models/product_list.dart';
 import 'package:shopping_app/models/products_class.dart';
 import 'package:shopping_app/pages/product_big_page.dart';
-
 import 'cart_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String categoryName = '';
+
   final List<String> productNames = ProductsList().products.map((
     ProductsClass product,
   ) {
@@ -204,34 +204,68 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: <Widget>[
-                    CategoriesBuilder(
-                      icon: Icons.phone_android,
-                      text: 'Electronics',
-                      onTap: () {},
-                    ),
-                    CategoriesBuilder(
-                      icon: Icons.face,
-                      text: 'Beauty',
-                      onTap: () {},
-                    ),
-                    CategoriesBuilder(
-                      icon: Icons.sports_esports,
-                      text: 'Games',
-                      onTap: () {},
-                    ),
-                    CategoriesBuilder(
-                      icon: Icons.kitchen,
-                      text: 'Kitchen',
-                      onTap: () {},
-                    ),
-                    CategoriesBuilder(
-                      icon: Icons.checkroom,
-                      text: 'Clothing',
-                      onTap: () {},
-                    ),
-                  ],
+                child: Consumer<CartModel>(
+                  builder:
+                      (BuildContext context, CartModel cart, Widget? child) {
+                        return Row(
+                          children: <Widget>[
+                            CategoriesBuilder(
+                              icon: Icons.all_inclusive,
+                              text: 'All',
+                              onTap: () {
+                                setState(() {
+                                  categoryName = '/all';
+                                });
+                              },
+                            ),
+                            CategoriesBuilder(
+                              icon: Icons.phone_android,
+                              text: 'Electronics',
+                              onTap: () {
+                                setState(() {
+                                  categoryName = 'Electronics';
+                                });
+                              },
+                            ),
+                            CategoriesBuilder(
+                              icon: Icons.face,
+                              text: 'Beauty',
+                              onTap: () {
+                                setState(() {
+                                  categoryName = 'Beauty';
+                                });
+                              },
+                            ),
+                            CategoriesBuilder(
+                              icon: Icons.sports_esports,
+                              text: 'Games',
+                              onTap: () {
+                                setState(() {
+                                  categoryName = 'Games';
+                                });
+                              },
+                            ),
+                            CategoriesBuilder(
+                              icon: Icons.kitchen,
+                              text: 'Kitchen',
+                              onTap: () {
+                                setState(() {
+                                  categoryName = 'Kitchen';
+                                });
+                              },
+                            ),
+                            CategoriesBuilder(
+                              icon: Icons.checkroom,
+                              text: 'Clothing',
+                              onTap: () {
+                                setState(() {
+                                  categoryName = 'Clothing';
+                                });
+                              },
+                            ),
+                          ],
+                        );
+                      },
                 ),
               ),
             ),
@@ -255,26 +289,30 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   crossAxisCount: 2,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: ProductsList().products.map((
-                    ProductsClass product,
-                  ) {
-                    return ProductsCard(
-                      productsClass: product,
-                      onPressedAddToCartButton: () {
-                        cart.addItem(product);
-                        cart.increaseItemQuantity(product);
-                      },
-                      onPressedCard: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<Widget>(
-                            builder: (BuildContext context) =>
-                                ProductBigPage(individualProduct: product),
-                          ),
+                  children: ProductsList().products
+                      .where(
+                        (ProductsClass product) =>
+                            product.category.contains(categoryName),
+                      )
+                      .map((ProductsClass product) {
+                        return ProductsCard(
+                          productsClass: product,
+                          onPressedAddToCartButton: () {
+                            cart.addItem(product);
+                            cart.increaseItemQuantity(product);
+                          },
+                          onPressedCard: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<Widget>(
+                                builder: (BuildContext context) =>
+                                    ProductBigPage(individualProduct: product),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }).toList(),
+                      })
+                      .toList(),
                 );
               },
             ),
