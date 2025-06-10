@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:shopping_app/pages/order_placed_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -102,7 +103,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<Widget>(
+                                builder: (BuildContext context) =>
+                                    const OrderPlacedPage(),
+                              ),
+                            );
+                          },
                           style: const ButtonStyle(
                             backgroundColor: WidgetStatePropertyAll<Color>(
                               Colors.greenAccent,

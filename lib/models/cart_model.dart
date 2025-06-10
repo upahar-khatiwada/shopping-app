@@ -17,6 +17,14 @@ class CartModel extends ChangeNotifier {
     return totalCountOfItems;
   }
 
+  double get totalPrice {
+    double totPrice = 0;
+    for (int i = 0; i < itemCount; i++) {
+      totPrice += items[i].itemQuantity * items[i].price;
+    }
+    return totPrice;
+  }
+
   int getQuantity(ProductsClass product) {
     final int index = _items.indexOf(product);
 
