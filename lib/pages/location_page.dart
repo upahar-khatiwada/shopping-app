@@ -261,32 +261,36 @@ class _LocationPageState extends State<LocationPage> {
             //   ),
             // ),
             const Spacer(),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<Widget>(
-                        builder: (BuildContext context) => const CheckoutPage(),
+            Visibility(
+              visible: currentLocation.isNotEmpty,
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<Widget>(
+                          builder: (BuildContext context) =>
+                              CheckoutPage(deliveryLocation: currentLocation),
+                        ),
+                      );
+                    },
+                    label: Text(
+                      'Proceed',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
                       ),
-                    );
-                  },
-                  label: Text(
-                    'Proceed',
-                    style: TextStyle(
+                    ),
+                    icon: Icon(
+                      Icons.check,
                       color: Theme.of(context).colorScheme.inversePrimary,
                     ),
-                  ),
-                  icon: Icon(
-                    Icons.check,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  style: const ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Colors.green,
+                    style: const ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll<Color>(
+                        Colors.green,
+                      ),
                     ),
                   ),
                 ),
