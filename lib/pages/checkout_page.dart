@@ -3,7 +3,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:shopping_app/pages/order_placed_page.dart';
 
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({super.key});
+  final String deliveryLocation;
+  const CheckoutPage({super.key, required this.deliveryLocation});
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -108,7 +109,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               context,
                               MaterialPageRoute<Widget>(
                                 builder: (BuildContext context) =>
-                                    const OrderPlacedPage(),
+                                    OrderPlacedPage(
+                                      deliveryLocation: widget.deliveryLocation,
+                                    ),
                               ),
                             );
                           },
