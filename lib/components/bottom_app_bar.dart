@@ -10,12 +10,6 @@ class CartPageBottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CartModel>(
       builder: (BuildContext context, CartModel cart, Widget? child) {
-        double totalPrice = 0;
-        for (int i = 0; i < cart.itemCount; i++) {
-          totalPrice += cart.items[i].itemQuantity * cart.items[i].price;
-          print(totalPrice);
-        }
-
         return BottomAppBar(
           elevation: 8,
           color: Theme.of(context).colorScheme.secondary,
@@ -37,7 +31,7 @@ class CartPageBottomAppBar extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '\$ $totalPrice',
+                          text: '\$ ${cart.totalPrice}',
                           style: const TextStyle(
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
