@@ -1,18 +1,18 @@
-# 🔐 Flutter Firebase Authentication
+# 🛒 Flutter Shopping App
 
-A simple and functional Firebase authentication blueprint that can be easily integrated into other Flutter projects.
+A simple shopping app built using **Flutter** for the frontend and **Firebase** for authentication and database management.
 
 ---
 
 ## ✨ Features
 
-✅ **Email & Password Authentication**  
-✅ **Google Sign-In**  
-✅ **Facebook Login**  
-✅ **Twitter Login**  
-✅ **Email Signup with Verification**  
-✅ **Password Reset Functionality**  
-✅ **Simple Home Page with Logout Option**
+- ✅ **Email & Social Authentication** (Google, Facebook, Twitter)
+- ✅ **Light & Dark Mode Support**
+- ✅ **Product Categories with Detailed Product Pages**
+- ✅ **Shopping Cart and Checkout Pages**
+- ✅ **Order Receipt Generation**
+- ✅ **Delivery Location Selection (based on your location)**
+- ✅ **Simple Home Screen with Logout Option**
 
 ---
 
@@ -23,41 +23,49 @@ A simple and functional Firebase authentication blueprint that can be easily int
 
 ---
 
-### 🔁 Reset Password
-<img src="https://github.com/user-attachments/assets/425ddd69-04f0-4234-8898-f8ab3244f2ba" width="400"/>
+### 🏠 Home Page
+<img src="https://github.com/user-attachments/assets/5073145e-d23f-4f8a-b961-5c62fbd1a0d8" width="400"/>
 
 ---
 
-### 📝 Email Signup
-<img src="https://github.com/user-attachments/assets/cbdadb4e-a1c3-464f-b8a5-90d77fde0f5f" width="400"/>
+### ⚙️ Settings Page
+<img src="https://github.com/user-attachments/assets/79d6c8c5-d780-49ba-8268-a4af8f3d5fe4" width="400"/>
 
 ---
 
-### 📧 Email Verification
-<img src="https://github.com/user-attachments/assets/e1dc9519-f9b1-47fa-b84a-451a5aea7169" width="400"/>
+### 📄 Product Details Page
+<img src="https://github.com/user-attachments/assets/1489bdff-9325-4285-a221-a197254585a1" width="400"/>
 
 ---
 
-### 🏠 Home Page with Logout
-<img src="https://github.com/user-attachments/assets/62356042-463c-48a4-9693-3772e21fc424" width="400"/>
+### 🛒 Cart Page
+<img src="https://github.com/user-attachments/assets/d2b81d82-6930-43e6-aaea-4706ba4c8829" width="400"/>
 
 ---
 
-## 🎨 Update App's Theme
-
-You can customize the theme of the app in:
-`lib/Screens/login_screens/login_screens_constants/const_var.dart`
-
-
-This file includes values for:
-
-- Background color 
-- Text Color
-- Button Colors and more
-
-Edit the values as per your liking
+### 📍 Delivery Location Page
+<img src="https://github.com/user-attachments/assets/3027456f-43eb-4829-bf80-0301ffb285e5" width="400"/>
 
 ---
+
+### 💳 Checkout Page
+<img src="https://github.com/user-attachments/assets/23157038-bbdd-4f8b-848d-2bc53d1ce4a0" width="400"/>
+
+---
+
+### 🧾 Receipt Page
+<img src="https://github.com/user-attachments/assets/2fa1069f-b28e-489a-801a-3c01e677cd4d" width="400"/>
+
+
+---
+
+
+### 🗄️ Database
+<img src="https://github.com/user-attachments/assets/67c56b42-ddd3-478f-b717-998543f617e6" width="400/">
+
+
+---
+
 
 ## 🔧 Prerequisites
 
@@ -73,8 +81,8 @@ Edit the values as per your liking
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/upahar-khatiwada/Flutter-Firebase-Authentication
-cd Flutter-Firebase-Authentication
+git clone https://github.com/upahar-khatiwada/shopping-app
+cd shopping-app
 ```
 
 ### 2. Create a `.env` File at the Root
