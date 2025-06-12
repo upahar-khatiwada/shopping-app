@@ -16,6 +16,12 @@ A simple shopping app built using **Flutter** for the frontend and **Firebase** 
 
 ---
 
+
+## 🎥 Video Demo
+https://github.com/user-attachments/assets/ce5f9bf2-b4c4-4965-bfbb-3fede8e3f43b
+
+---
+
 ## 📸 Screenshots
 
 ### 🔑 Login Page (Email & Social Login)
@@ -49,7 +55,7 @@ A simple shopping app built using **Flutter** for the frontend and **Firebase** 
 ---
 
 ### 💳 Checkout Page
-<img src="https://github.com/user-attachments/assets/23157038-bbdd-4f8b-848d-2bc53d1ce4a0" width="400"/>
+<img src="https://github.com/user-attachments/assets/5f1a7a2a-1e2d-4bc8-aacd-87c7b276ca4e" width="400"/>
 
 ---
 
