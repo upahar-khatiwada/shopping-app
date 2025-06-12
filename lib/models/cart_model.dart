@@ -60,7 +60,6 @@ class CartModel extends ChangeNotifier {
     if (!_items.contains(product)) {
       _items.add(product);
     }
-    // product.itemQuantity++;
     notifyListeners();
   }
 

@@ -79,6 +79,7 @@ flutter:
    - assets/login_assets/
    - .env
    - assets/shopping/
+   - assets/cards/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
