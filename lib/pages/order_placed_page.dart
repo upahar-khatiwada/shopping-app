@@ -5,8 +5,7 @@ import 'package:shopping_app/models/cart_model.dart';
 import '../database/firestore_config.dart';
 
 class OrderPlacedPage extends StatefulWidget {
-  final String deliveryLocation;
-  const OrderPlacedPage({super.key, required this.deliveryLocation});
+  const OrderPlacedPage({super.key});
 
   @override
   State<OrderPlacedPage> createState() => _OrderPlacedPageState();
@@ -21,7 +20,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
 
     FireStoreConfig().saveOrders(
       cart.items,
-      widget.deliveryLocation,
+      cart.getDeliveryLocation,
       cart.totalPrice.toString(),
     );
   }
