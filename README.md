@@ -7,6 +7,7 @@ A simple shopping app built using **Flutter** for the frontend and **Firebase** 
 ## ✨ Features
 
 - ✅ **Email & Social Authentication** (Google, Facebook, Twitter)
+- ✅ **Stripe Payment Integration**
 - ✅ **Light & Dark Mode Support**
 - ✅ **Product Categories with Detailed Product Pages**
 - ✅ **Shopping Cart and Checkout Pages**
