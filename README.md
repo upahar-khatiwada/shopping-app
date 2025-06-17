@@ -18,7 +18,9 @@ A simple shopping app built using **Flutter** for the frontend and **Firebase** 
 
 
 ## 🎥 Video Demo
-https://github.com/user-attachments/assets/ce5f9bf2-b4c4-4965-bfbb-3fede8e3f43b
+<!-- https://github.com/user-attachments/assets/ce5f9bf2-b4c4-4965-bfbb-3fede8e3f43b -->
+https://github.com/user-attachments/assets/699e37e6-4cb0-49e9-a422-645125d45435
+
 
 ---
 
@@ -50,24 +52,24 @@ https://github.com/user-attachments/assets/ce5f9bf2-b4c4-4965-bfbb-3fede8e3f43b
 ---
 
 ### 📍 Delivery Location Page
-<img src="https://github.com/user-attachments/assets/3027456f-43eb-4829-bf80-0301ffb285e5" width="400"/>
+<img src="https://github.com/user-attachments/assets/4b7477d7-9357-465a-981d-cfb1216d0aa4" width="400"/>
 
 ---
 
 ### 💳 Checkout Page
-<img src="https://github.com/user-attachments/assets/5f1a7a2a-1e2d-4bc8-aacd-87c7b276ca4e" width="400"/>
+<img src="https://github.com/user-attachments/assets/ffd1c67f-8c9d-4b9a-913c-c067cdafea40" width="400"/>
 
 ---
 
 ### 🧾 Receipt Page
-<img src="https://github.com/user-attachments/assets/2fa1069f-b28e-489a-801a-3c01e677cd4d" width="400"/>
+<img src="https://github.com/user-attachments/assets/1665288d-24b2-481e-a653-358090813518" width="400"/>
 
 
 ---
 
 
 ### 🗄️ Database
-<img src="https://github.com/user-attachments/assets/67c56b42-ddd3-478f-b717-998543f617e6" width="400/">
+<img src="https://github.com/user-attachments/assets/0fcb8c99-23ef-4c82-83e6-fd6458c5a7f6" width="400/">
 
 
 ---
