@@ -14,7 +14,7 @@ class StripeService {
 
   Future<void> makePayment(BuildContext context, double amount) async {
     try {
-      String? clientSecret = await createPaymentIntent(amount, 'usd');
+      String? clientSecret = await createPaymentIntent(context, amount, 'usd');
 
       if (clientSecret != null && context.mounted) {
         await Stripe.instance.initPaymentSheet(
@@ -36,11 +36,34 @@ class StripeService {
         }
       }
     } catch (e) {
-      print(e);
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Error Occurred!',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
+              content: Text(e.toString()),
+              contentTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              contentPadding: const EdgeInsets.all(8),
+            );
+          },
+        );
+      }
     }
   }
 
-  Future<String?> createPaymentIntent(double amount, String currency) async {
+  Future<String?> createPaymentIntent(
+    BuildContext context,
+    double amount,
+    String currency,
+  ) async {
     try {
       Map<String, dynamic> payload = <String, dynamic>{
         'amount': calculateAmount(amount).toString(),
@@ -61,7 +84,26 @@ class StripeService {
         return data['client_secret'];
       }
     } catch (e) {
-      print(e);
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Error Occurred!',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
+              content: Text(e.toString()),
+              contentTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              contentPadding: const EdgeInsets.all(8),
+            );
+          },
+        );
+      }
     }
     return null;
   }
