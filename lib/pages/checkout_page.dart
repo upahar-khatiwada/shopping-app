@@ -218,7 +218,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 context,
                                 MaterialPageRoute<Widget>(
                                   builder: (BuildContext context) =>
-                                      OrderPlacedPage(),
+                                      const OrderPlacedPage(),
                                 ),
                               );
                             },

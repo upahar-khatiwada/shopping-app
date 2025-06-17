@@ -191,19 +191,25 @@ class _HomePageState extends State<HomePage> {
                         return Align(
                           alignment: Alignment.topLeft,
                           child: Material(
+                            color: Colors.transparent,
                             elevation: 4,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(16),
                             child: SizedBox(
                               height:
                                   // list tile's height is 50 pixels
                                   // displays scrollable suggestions if there are over 4 suggestions
                                   (options.length < 4 ? options.length : 4) *
                                   50,
-                              child: ListView.builder(
+                              child: ListView.separated(
+                                clipBehavior: Clip.hardEdge,
                                 itemCount: options.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   // final String option = options.elementAt(index);
                                   return ListTile(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(12),
+                                    ),
                                     tileColor: Theme.of(
                                       context,
                                     ).colorScheme.tertiary,
@@ -213,6 +219,18 @@ class _HomePageState extends State<HomePage> {
                                     },
                                   );
                                 },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                      return Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.secondary,
+                                        indent: 8,
+                                        endIndent: 8,
+                                      );
+                                    },
                               ),
                             ),
                           ),
