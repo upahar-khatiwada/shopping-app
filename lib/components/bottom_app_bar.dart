@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/models/cart_model.dart';
-import 'package:shopping_app/pages/location_page.dart';
+import 'package:shopping_app/pages/location_and_checkout_page.dart';
 
 class CartPageBottomAppBar extends StatelessWidget {
   const CartPageBottomAppBar({super.key});

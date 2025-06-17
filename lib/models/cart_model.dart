@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shopping_app/models/products_class.dart';
 
 class CartModel extends ChangeNotifier {
+  String _deliveryLocation = '';
+
   final List<ProductsClass> _items = <ProductsClass>[];
   //getter for getting the list of items
   List<ProductsClass> get items => _items;
@@ -24,6 +26,13 @@ class CartModel extends ChangeNotifier {
     }
     return totPrice;
   }
+
+  set deliveryLocation(String value) {
+    _deliveryLocation = value;
+    notifyListeners();
+  }
+
+  String get getDeliveryLocation => _deliveryLocation;
 
   int getQuantity(ProductsClass product) {
     final int index = _items.indexOf(product);
