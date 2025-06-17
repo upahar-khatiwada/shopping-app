@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/components/categories_builder.dart';
 import 'package:shopping_app/components/drawer.dart';
 import 'package:shopping_app/components/products_card.dart';
-import 'package:shopping_app/components/unFocusOnTap.dart';
+import 'package:shopping_app/components/un_focus_on_tap.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/models/product_list.dart';
 import 'package:shopping_app/models/products_class.dart';
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     tileColor: Theme.of(
                                       context,
-                                    ).colorScheme.tertiary,
+                                    ).colorScheme.secondary,
                                     title: Text(options.elementAt(index)),
                                     onTap: () {
                                       onSelected(options.elementAt(index));

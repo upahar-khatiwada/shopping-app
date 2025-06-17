@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/components/de_bouncer.dart';
-import 'package:shopping_app/components/unFocusOnTap.dart';
+import 'package:shopping_app/components/un_focus_on_tap.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/services/stripe_service.dart';
 
@@ -22,7 +22,7 @@ class _LocationPageState extends State<LocationPage> {
   late String? city;
   late TextEditingController locationSearchController;
   List<String> possibleAutoComplete = <String>[];
-  final DeBouncerClass _deBouncer = DeBouncerClass(milliseconds: 500);
+  late DeBouncerClass _deBouncer;
 
   Future<String> getLocation() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -95,50 +95,12 @@ class _LocationPageState extends State<LocationPage> {
     }
   }
 
-  Widget listTileBuilder() {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Material(
-        elevation: 4,
-        borderRadius: BorderRadius.circular(8),
-        child: SizedBox(
-          height:
-              // list tile's height is 50 pixels
-              // displays scrollable suggestions if there are over 4 suggestions
-              (possibleAutoComplete.length < 4
-                  ? possibleAutoComplete.length
-                  : 4) *
-              50,
-          child: ListView.builder(
-            itemCount: possibleAutoComplete.length,
-            itemBuilder: (BuildContext context, int index) {
-              // final String option = possibleAutoComplete.elementAt(index);
-              return ListTile(
-                tileColor: Theme.of(context).colorScheme.tertiary,
-                title: Text(possibleAutoComplete.elementAt(index)),
-                onTap: () {
-                  setState(() {
-                    Provider.of<CartModel>(
-                      context,
-                      listen: false,
-                    ).deliveryLocation = possibleAutoComplete[index];
-                    // currentLocation = possibleAutoComplete[index];
-                    possibleAutoComplete.clear();
-                  });
-                },
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     locationSearchController = TextEditingController();
+    _deBouncer = DeBouncerClass(milliseconds: 400);
   }
 
   @override
@@ -170,65 +132,167 @@ class _LocationPageState extends State<LocationPage> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    cursorColor: Theme.of(context).colorScheme.inversePrimary,
-                    controller: locationSearchController,
-                    decoration: InputDecoration(
-                      suffixIcon: Visibility(
-                        visible: locationSearchController.text.isNotEmpty,
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              locationSearchController.clear();
-                              possibleAutoComplete.clear();
-                            });
-                          },
-                          icon: const Icon(Icons.clear, color: Colors.red),
-                        ),
-                      ),
-                      prefixIcon: const Icon(Icons.edit_location),
-                      prefixIconColor: Theme.of(
-                        context,
-                      ).colorScheme.inversePrimary,
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.tertiary,
-                      hintText: 'Search your location..',
-                      hintStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.tertiaryFixed,
-                        ),
-                      ),
-                      focusColor: Theme.of(context).colorScheme.inversePrimary,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onChanged: (String s) {
-                      if (s.length > 3) {
-                        setState(() {
-                          _deBouncer.run(() {
-                            // print(s);
-                            autoCompleteTest(s);
-                          });
-                        });
+                  padding: const EdgeInsets.all(16),
+                  child: Autocomplete<String>(
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text.length <= 3) {
+                        return const Iterable<String>.empty();
                       }
+                      _deBouncer.run(
+                        () => autoCompleteTest(textEditingValue.text),
+                      );
+                      return possibleAutoComplete.where((String option) {
+                        return option.toLowerCase().contains(
+                          textEditingValue.text.toLowerCase(),
+                        );
+                      });
                     },
+                    onSelected: (String selectedLocation) {
+                      Provider.of<CartModel>(
+                        context,
+                        listen: false,
+                      ).deliveryLocation = selectedLocation;
+                      // locationSearchController.text = selectedLocation;
+                      possibleAutoComplete.clear();
+                    },
+                    fieldViewBuilder:
+                        (
+                          BuildContext context,
+                          TextEditingController textEditingController,
+                          FocusNode focusNode,
+                          VoidCallback onFieldSubmitted,
+                        ) {
+                          return StatefulBuilder(
+                            builder:
+                                (
+                                  BuildContext context,
+                                  StateSetter setInnerState,
+                                ) {
+                                  textEditingController.addListener(() {
+                                    setInnerState(() {});
+                                  });
+                                  return TextField(
+                                    cursorColor: Theme.of(
+                                      context,
+                                    ).colorScheme.inversePrimary,
+                                    controller: textEditingController,
+                                    focusNode: focusNode,
+                                    decoration: InputDecoration(
+                                      hintText: 'Search your location..',
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.inversePrimary,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.search,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.inversePrimary,
+                                      ),
+                                      suffixIcon: Visibility(
+                                        visible: textEditingController
+                                            .text
+                                            .isNotEmpty,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            textEditingController.clear();
+                                          },
+                                          icon: const Icon(
+                                            Icons.clear,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                      filled: true,
+                                      fillColor: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                          );
+                        },
+                    optionsViewBuilder:
+                        (
+                          BuildContext context,
+                          AutocompleteOnSelected<String> onSelected,
+                          Iterable<String> options,
+                        ) {
+                          return Align(
+                            alignment: Alignment.topLeft,
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 4,
+                              borderRadius: BorderRadius.circular(16),
+                              child: SizedBox(
+                                height:
+                                    // list tile's height is 50 pixels
+                                    // displays scrollable suggestions if there are over 4 suggestions
+                                    (options.length < 4 ? options.length : 4) *
+                                    50,
+                                child: ListView.separated(
+                                  clipBehavior: Clip.hardEdge,
+                                  itemCount: options.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // final String option = options.elementAt(index);
+                                    return ListTile(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusGeometry.circular(12),
+                                      ),
+                                      tileColor: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                      title: Text(options.elementAt(index)),
+                                      onTap: () {
+                                        onSelected(options.elementAt(index));
+                                      },
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                        return Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.secondary,
+                                          indent: 8,
+                                          endIndent: 8,
+                                        );
+                                      },
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                   ),
                 ),
-                if (locationSearchController.text.isNotEmpty &&
-                    locationSearchController.text.length > 3)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: listTileBuilder(),
-                  ),
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

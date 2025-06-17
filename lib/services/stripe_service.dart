@@ -27,11 +27,18 @@ class StripeService {
         await Stripe.instance.presentPaymentSheet();
         if (context.mounted) {
           // Provider.of<CartModel>(context, listen: false).clearCart();
-          Navigator.push(
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute<Widget>(
+          //     builder: (BuildContext context) => const OrderPlacedPage(),
+          //   ),
+          // );
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute<Widget>(
               builder: (BuildContext context) => const OrderPlacedPage(),
             ),
+            (Route<dynamic> route) => false,
           );
         }
       }
