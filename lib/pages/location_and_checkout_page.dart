@@ -24,6 +24,9 @@ class _LocationPageState extends State<LocationPage> {
   List<String> possibleAutoComplete = <String>[];
   late DeBouncerClass _deBouncer;
 
+  // variables to store latitude, longitude for API call for Galli Maps
+  String? lat, lon;
+
   Future<String> getLocation() async {
     LocationPermission permission = await Geolocator.checkPermission();
 
@@ -48,6 +51,9 @@ class _LocationPageState extends State<LocationPage> {
       locationSettings: locationSettings,
     );
 
+    lat = position.latitude.toString();
+    lon = position.longitude.toString();
+
     placeMarks = await placemarkFromCoordinates(
       position.latitude,
       position.longitude,
@@ -71,8 +77,8 @@ class _LocationPageState extends State<LocationPage> {
   void autoCompleteTest(String query) async {
     // print('API call with query: $query');
     final String? accessToken = dotenv.env['ACCESS_TOKEN'];
-    const String lat = '28.3949';
-    const String lon = '84.1240';
+    // const String lat = '28.3949';
+    // const String lon = '84.1240';
 
     http.Response response = await http.get(
       Uri.parse(
@@ -338,6 +344,15 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
+                // ElevatedButton.icon(
+                //   onPressed: () {},
+                //   label: const Text('Temp Button'),
+                //   icon: const Icon(Icons.temple_buddhist),
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Theme.of(context).colorScheme.secondary,
+                //     foregroundColor: Colors.white,
+                //   ),
+                // ),
                 Consumer<CartModel>(
                   builder: (BuildContext context, CartModel cart, Widget? child) {
                     return Visibility(
