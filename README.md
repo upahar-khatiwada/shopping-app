@@ -99,14 +99,16 @@ cd shopping-app
 Create a `.env` file in the root directory and add your authentication keys:
 
 ```env
-CLIENT_ID=
-CLIENT_SECRET=
-FACEBOOK_APP_ID=
-FACEBOOK_CLIENT_TOKEN=
-FB_LOGIN_PROTOCOL_SCHEME=
-TWITTER_APIKEY=
-TWITTER_SECRET=
-TWITTER_CALLBACK=
+FACEBOOK_APP_ID= access this from facebook developers site
+FACEBOOK_CLIENT_TOKEN= access this from facebook developers site
+FB_LOGIN_PROTOCOL_SCHEME= access this from facebook developers site
+TWITTER_APIKEY= access this from twitter developers site
+TWITTER_SECRET= access this from twitter developers site
+TWITTER_CALLBACK= access this from twitter developers site
+ACCESS_TOKEN= access this from gallimaps site
+STRIPE_PUBLISHABLE_KEY= access this from stripe
+STRIPE_SECRET_KEY= access this from stripe
+LOCATION_IQ_API_KEY= access this from locationiq site
 ```
 
 ### 3. Configure `env.gradle` for Android

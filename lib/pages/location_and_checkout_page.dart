@@ -21,7 +21,8 @@ class _LocationPageState extends State<LocationPage> {
   late List<Placemark> placeMarks;
   late String? city;
   late TextEditingController locationSearchController;
-  List<String> possibleAutoComplete = <String>[];
+  List<String> possibleAutoComplete = <String>[]; // for galli maps
+  List<String> possibleAutoCompleteWorld = <String>[]; // for world
   late DeBouncerClass _deBouncer;
 
   // variables to store latitude, longitude for API call for Galli Maps
@@ -74,7 +75,36 @@ class _LocationPageState extends State<LocationPage> {
     });
   }
 
-  void autoCompleteTest(String query) async {
+  void autoCompleteWorld(String query) async {
+    print('test');
+    final String? accessToken = dotenv.env['LOCATION_IQ_API_KEY'];
+    print(accessToken);
+
+    http.Response response = await http.get(
+      Uri.parse(
+        'https://api.locationiq.com/v1/autocomplete?key=$accessToken&q=$query',
+      ),
+    );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> autoCompleteLocation = json.decode(response.body);
+
+      setState(() {
+        possibleAutoCompleteWorld.clear();
+        for (int i = 0; i < autoCompleteLocation.length; i++) {
+          possibleAutoCompleteWorld.add(
+            autoCompleteLocation[i]['display_name'],
+          );
+        }
+      });
+
+      print(possibleAutoCompleteWorld);
+    }
+  }
+
+  void autoCompleteGalliMaps(String query) async {
     // print('API call with query: $query');
     final String? accessToken = dotenv.env['ACCESS_TOKEN'];
     // const String lat = '28.3949';
@@ -144,10 +174,19 @@ class _LocationPageState extends State<LocationPage> {
                       if (textEditingValue.text.length <= 3) {
                         return const Iterable<String>.empty();
                       }
+                      // uncomment this for galli maps
+                      // _deBouncer.run(
+                      //   () => autoCompleteGalliMaps(textEditingValue.text),
+                      // );
+                      // return possibleAutoComplete.where((String option) {
+                      //   return option.toLowerCase().contains(
+                      //     textEditingValue.text.toLowerCase(),
+                      //   );
+                      // });
                       _deBouncer.run(
-                        () => autoCompleteTest(textEditingValue.text),
+                        () => autoCompleteWorld(textEditingValue.text),
                       );
-                      return possibleAutoComplete.where((String option) {
+                      return possibleAutoCompleteWorld.where((String option) {
                         return option.toLowerCase().contains(
                           textEditingValue.text.toLowerCase(),
                         );
@@ -159,7 +198,10 @@ class _LocationPageState extends State<LocationPage> {
                         listen: false,
                       ).deliveryLocation = selectedLocation;
                       // locationSearchController.text = selectedLocation;
-                      possibleAutoComplete.clear();
+                      possibleAutoCompleteWorld.clear();
+
+                      // uncomment this for galli maps
+                      // possibleAutoComplete.clear();
                     },
                     fieldViewBuilder:
                         (
@@ -344,15 +386,17 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // ElevatedButton.icon(
-                //   onPressed: () {},
-                //   label: const Text('Temp Button'),
-                //   icon: const Icon(Icons.temple_buddhist),
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Theme.of(context).colorScheme.secondary,
-                //     foregroundColor: Colors.white,
-                //   ),
-                // ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    autoCompleteWorld('dhumba');
+                  },
+                  label: const Text('Temp Button'),
+                  icon: const Icon(Icons.temple_buddhist),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
                 Consumer<CartModel>(
                   builder: (BuildContext context, CartModel cart, Widget? child) {
                     return Visibility(
