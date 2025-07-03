@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/currency/currency_helper.dart';
+import 'package:shopping_app/currency/currency_provider.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/services/esewa_service.dart';
+import 'package:shopping_app/services/khalti_service.dart';
 import 'package:shopping_app/services/stripe_service.dart';
 
 enum CardType { card, esewa, khalti }
@@ -15,6 +18,7 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   double tempAmount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +38,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
             children: <Widget>[
               Consumer<CartModel>(
                 builder: (BuildContext context, CartModel cart, Widget? child) {
-                  tempAmount = cart.totalPrice;
+                  bool isUSD =
+                      Provider.of<CurrencyProvider>(context, listen: false).selectedCurrency ==
+                      'usd';
+                  tempAmount = isUSD
+                      ? cart.totalPrice + 9.99
+                      : cart.totalPrice * 136.5 + 9.99 * 136.5;
                   return Visibility(
                     visible: cart.getDeliveryLocation.isNotEmpty,
                     child: Card(
@@ -51,38 +60,29 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           children: <Widget>[
                             _buildPriceRow(
                               'Items Total',
-                              '\$${cart.totalPrice.toStringAsFixed(2)}',
+                              CurrencyHelper.formatPrice(
+                                context,
+                                cart.totalPrice,
+                              ),
+                              // '\$${cart.totalPrice.toStringAsFixed(2)}',
                             ),
                             const SizedBox(height: 8),
-                            _buildPriceRow('Delivery Charge', '\$9.99'),
+                            _buildPriceRow(
+                              'Delivery Charge',
+                              CurrencyHelper.formatPrice(context, 9.99),
+                            ),
                             Divider(
                               height: 24,
                               color: Theme.of(context).colorScheme.tertiary,
                             ),
                             _buildPriceRow(
                               'Subtotal',
-                              '\$${(cart.totalPrice + 9.99).toStringAsFixed(2)}',
+                              CurrencyHelper.formatPrice(
+                                context,
+                                (cart.totalPrice + 9.99),
+                              ),
                               isBold: true,
                             ),
-                            // const SizedBox(height: 20),
-                            // ElevatedButton.icon(
-                            //   onPressed: () {
-                            //     StripeService.instance.makePayment(
-                            //       context,
-                            //       (cart.totalPrice + 9.99),
-                            //     );
-                            //   },
-                            //   icon: const Icon(Icons.payment),
-                            //   label: const Text('Pay Now'),
-                            //   style: ElevatedButton.styleFrom(
-                            //     backgroundColor: Colors.green,
-                            //     foregroundColor: Colors.white,
-                            //     padding: const EdgeInsets.symmetric(
-                            //       vertical: 14,
-                            //     ),
-                            //     textStyle: const TextStyle(fontSize: 16),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -110,7 +110,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   // print('test');
                   await StripeService.stripeInstance.makePayment(
                     context,
-                    tempAmount + 9.99,
+                    tempAmount,
                   );
                 },
               ),
@@ -123,7 +123,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 onTap: () {
                   EsewaService.esewaInstance.makeEsewaPayment(
                     context,
-                    tempAmount + 9.99,
+                    tempAmount,
                   );
                 },
               ),
@@ -133,7 +133,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 imagePath: 'assets/cards/khalti.png',
                 label: 'Khalti',
                 type: CardType.khalti,
-                onTap: () {},
+                onTap: () {
+                  KhaltiServiceCustom.khaltiInstance.khaltiPayment(
+                    context,
+                    tempAmount,
+                  );
+                },
               ),
             ],
           ),

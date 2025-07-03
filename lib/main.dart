@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:shopping_app/currency/currency_provider.dart';
 import 'package:shopping_app/login_components/login_screens/auth_page.dart';
 import 'package:shopping_app/login_components/login_screens/email_verification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,7 @@ void main() async {
   await dotenv.load(fileName: '.env');
   await Hive.initFlutter();
   await Hive.openBox('shopping_theme');
+  await Hive.openBox('currency_box');
   Stripe.publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY']!;
   runApp(
     MultiProvider(
@@ -29,6 +31,9 @@ void main() async {
         ),
         ChangeNotifierProvider<CartModel>(
           create: (BuildContext context) => CartModel(),
+        ),
+        ChangeNotifierProvider<CurrencyProvider>(
+          create: (BuildContext context) => CurrencyProvider(),
         ),
       ],
       child: const MyApp(),

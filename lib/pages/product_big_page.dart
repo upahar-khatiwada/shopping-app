@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/currency/currency_helper.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/models/products_class.dart';
 
@@ -77,7 +78,7 @@ class ProductBigPage extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                '\$ ${individualProduct.price}',
+                CurrencyHelper.formatPrice(context, individualProduct.price),
                 style: const TextStyle(fontSize: 15, color: Colors.orange),
               ),
               const SizedBox(height: 6),

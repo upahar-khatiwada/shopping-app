@@ -54,6 +54,8 @@ dependencies:
   flutter_stripe: ^11.5.0
   esewa_flutter_sdk:
     path: ./esewa_flutter_sdk
+  khalti_checkout_flutter:
+    path: ./khalti_checkout_flutter
 
 dev_dependencies:
   flutter_test:

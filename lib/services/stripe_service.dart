@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/pages/order_placed_page.dart';
 import 'package:shopping_app/themes/theme_provider.dart';
+import 'package:shopping_app/currency/currency_provider.dart';
 
 class StripeService {
   StripeService._();
@@ -13,8 +14,16 @@ class StripeService {
   static final StripeService stripeInstance = StripeService._();
 
   Future<void> makePayment(BuildContext context, double amount) async {
+    String tempCurr = Provider.of<CurrencyProvider>(
+      context,
+      listen: false,
+    ).selectedCurrency;
     try {
-      String? clientSecret = await createPaymentIntent(context, amount, 'usd');
+      String? clientSecret = await createPaymentIntent(
+        context,
+        amount,
+        tempCurr,
+      );
 
       if (clientSecret != null && context.mounted) {
         await Stripe.instance.initPaymentSheet(

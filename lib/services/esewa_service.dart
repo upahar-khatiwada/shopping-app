@@ -19,8 +19,12 @@ class EsewaService {
     environment: Environment.test,
   );
 
-  void makeEsewaPayment(BuildContext context, double price) {
-final CartModel cart = Provider.of<CartModel>(context, listen: false);
+  void makeEsewaPayment(
+    BuildContext context,
+    double price, {
+    String callback = 'https://example.com/callback',
+  }) {
+    final CartModel cart = Provider.of<CartModel>(context, listen: false);
 
     print('---ESEWA---');
     EsewaFlutterSdk.initPayment(
@@ -29,7 +33,7 @@ final CartModel cart = Provider.of<CartModel>(context, listen: false);
         productId: cart.getID(),
         productName: cart.getName(),
         productPrice: price.toString(),
-        callbackUrl: 'https://example.com/callback',
+        callbackUrl: callback,
       ),
       onPaymentSuccess: (EsewaPaymentSuccessResult data) {
         print(data);

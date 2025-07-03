@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/currency/currency_helper.dart';
+import 'package:shopping_app/currency/currency_provider.dart';
 import 'package:shopping_app/models/products_class.dart';
 import '../models/cart_model.dart';
 
@@ -87,7 +89,11 @@ class Receipt extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        '\$${(product.price * product.itemQuantity).toStringAsFixed(2)}',
+                                        CurrencyHelper.formatPrice(
+                                          context,
+                                          (product.price *
+                                              product.itemQuantity),
+                                        ),
                                         style: TextStyle(
                                           color: Theme.of(
                                             context,
@@ -139,8 +145,12 @@ class Receipt extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+
                               Text(
-                                '\$${(cart.totalPrice + 9.99).toStringAsFixed(2)}',
+                                CurrencyHelper.formatPrice(
+                                  context,
+                                  (cart.totalPrice + 9.99),
+                                ),
                                 style: TextStyle(
                                   color: Theme.of(
                                     context,

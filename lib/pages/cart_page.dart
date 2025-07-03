@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/components/bottom_app_bar.dart';
+import 'package:shopping_app/currency/currency_helper.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -146,7 +147,14 @@ class CartPage extends StatelessWidget {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                '\$ ${(cart.items[index].price * cart.items[index].itemQuantity)}',
+                                                CurrencyHelper.formatPrice(
+                                                  context,
+                                                  (cart.items[index].price *
+                                                      cart
+                                                          .items[index]
+                                                          .itemQuantity),
+                                                ),
+                                                // '\$ ${(cart.items[index].price * cart.items[index].itemQuantity)}',
                                                 style: const TextStyle(
                                                   color: Colors.orange,
                                                   fontWeight: FontWeight.bold,

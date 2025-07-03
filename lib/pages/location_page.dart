@@ -147,6 +147,7 @@ class _LocationPageState extends State<LocationPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getLocation();
     locationSearchController = TextEditingController();
     _deBouncer = DeBouncerClass(milliseconds: 400);
   }
