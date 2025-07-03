@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/components/de_bouncer.dart';
 import 'package:shopping_app/components/un_focus_on_tap.dart';
 import 'package:shopping_app/models/cart_model.dart';
+import 'package:shopping_app/pages/checkout_page.dart';
 import 'package:shopping_app/services/stripe_service.dart';
 
 class LocationPage extends StatefulWidget {
@@ -367,158 +368,95 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: callGetLocation,
-                  label: Text(
-                    'Get My Location',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                  ),
-                  icon: Icon(
-                    Icons.edit_location,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  style: const ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Colors.orange,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    autoCompleteWorld('dhumba');
-                  },
-                  label: const Text('Temp Button'),
-                  icon: const Icon(Icons.temple_buddhist),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
                 Consumer<CartModel>(
-                  builder: (BuildContext context, CartModel cart, Widget? child) {
-                    return Visibility(
-                      visible: cart.getDeliveryLocation.isNotEmpty,
-                      child: Card(
-                        elevation: 2.0,
-                        color: Theme.of(context).colorScheme.secondary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(12),
-                        ),
-                        margin: const EdgeInsets.all(16),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              _buildPriceRow(
-                                'Items Total',
-                                '\$${cart.totalPrice.toStringAsFixed(2)}',
+                  builder:
+                      (BuildContext context, CartModel cart, Widget? child) {
+                        return Visibility(
+                          visible: cart.getDeliveryLocation.isEmpty,
+                          child: ElevatedButton.icon(
+                            onPressed: callGetLocation,
+                            label: Text(
+                              'Get My Location',
+                              style: TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inversePrimary,
                               ),
-                              const SizedBox(height: 8),
-                              _buildPriceRow('Delivery Charge', '\$9.99'),
-                              Divider(
-                                height: 24,
-                                color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                            icon: Icon(
+                              Icons.edit_location,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                            ),
+                            style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll<Color>(
+                                Colors.orange,
                               ),
-                              _buildPriceRow(
-                                'Subtotal',
-                                '\$${(cart.totalPrice + 9.99).toStringAsFixed(2)}',
-                                isBold: true,
-                              ),
-                              const SizedBox(height: 20),
-                              ElevatedButton.icon(
+                            ),
+                          ),
+                        );
+                      },
+                ),
+                // ElevatedButton.icon(
+                //   onPressed: () {
+                //     autoCompleteWorld('dhumba');
+                //   },
+                //   label: const Text('Temp Button'),
+                //   icon: const Icon(Icons.temple_buddhist),
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Theme.of(context).colorScheme.secondary,
+                //     foregroundColor: Colors.white,
+                //   ),
+                // ),
+                Consumer<CartModel>(
+                  builder:
+                      (BuildContext context, CartModel cart, Widget? child) {
+                        return Visibility(
+                          visible: cart.getDeliveryLocation.isNotEmpty,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextButton.icon(
                                 onPressed: () {
-                                  StripeService.instance.makePayment(
+                                  Navigator.push(
                                     context,
-                                    (cart.totalPrice + 9.99),
+                                    MaterialPageRoute<Widget>(
+                                      builder: (BuildContext context) =>
+                                          const CheckoutPage(),
+                                    ),
                                   );
                                 },
-                                icon: const Icon(Icons.payment),
-                                label: const Text('Pay Now'),
+                                label: const Text(
+                                  'Proceed',
+                                  style: TextStyle(
+                                    // color: Theme.of(
+                                    //   context,
+                                    // ).colorScheme.inversePrimary,
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.check,
+                                  // color: Theme.of(
+                                  //   context,
+                                  // ).colorScheme.inversePrimary,
+                                ),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
                                   foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  textStyle: const TextStyle(fontSize: 16),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
                 ),
-                // const Spacer(),
-                // Visibility(
-                //   visible: currentLocation.isNotEmpty,
-                //   child: Align(
-                //     alignment: Alignment.bottomRight,
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(16.0),
-                //       child: TextButton.icon(
-                //         onPressed: () {
-                //           Navigator.push(
-                //             context,
-                //             MaterialPageRoute<Widget>(
-                //               builder: (BuildContext context) =>
-                //                   const PaymentPage(),
-                //             ),
-                //           );
-                //         },
-                //         label: Text(
-                //           'Proceed',
-                //           style: TextStyle(
-                //             color: Theme.of(context).colorScheme.inversePrimary,
-                //           ),
-                //         ),
-                //         icon: Icon(
-                //           Icons.check,
-                //           color: Theme.of(context).colorScheme.inversePrimary,
-                //         ),
-                //         style: const ButtonStyle(
-                //           backgroundColor: WidgetStatePropertyAll<Color>(
-                //             Colors.green,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildPriceRow(String label, String value, {bool isBold = false}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            color: Theme.of(context).colorScheme.inversePrimary,
-          ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            color: Theme.of(context).colorScheme.inversePrimary,
-          ),
-        ),
-      ],
     );
   }
 }

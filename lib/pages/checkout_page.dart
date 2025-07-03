@@ -1,8 +1,10 @@
-// UNUSED PAGE AFTER IMPLEMENTING STRIPE PAYMENT
-
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:provider/provider.dart';
+import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/pages/order_placed_page.dart';
+import 'package:shopping_app/services/stripe_service.dart';
+
+enum CardType { card, esewa, khalti }
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -12,15 +14,6 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String cardNumber = '';
-  String expiryDate = '';
-  String cardHolderName = '';
-  String cvvCode = '';
-  bool showBackView = false;
-  CardType? _cardType;
-  bool isCardSelected = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +31,63 @@ class _CheckoutPageState extends State<CheckoutPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Consumer<CartModel>(
+                builder: (BuildContext context, CartModel cart, Widget? child) {
+                  return Visibility(
+                    visible: cart.getDeliveryLocation.isNotEmpty,
+                    child: Card(
+                      elevation: 2.0,
+                      color: Theme.of(context).colorScheme.secondary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(12),
+                      ),
+                      margin: const EdgeInsets.all(16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            _buildPriceRow(
+                              'Items Total',
+                              '\$${cart.totalPrice.toStringAsFixed(2)}',
+                            ),
+                            const SizedBox(height: 8),
+                            _buildPriceRow('Delivery Charge', '\$9.99'),
+                            Divider(
+                              height: 24,
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                            _buildPriceRow(
+                              'Subtotal',
+                              '\$${(cart.totalPrice + 9.99).toStringAsFixed(2)}',
+                              isBold: true,
+                            ),
+                            // const SizedBox(height: 20),
+                            // ElevatedButton.icon(
+                            //   onPressed: () {
+                            //     StripeService.instance.makePayment(
+                            //       context,
+                            //       (cart.totalPrice + 9.99),
+                            //     );
+                            //   },
+                            //   icon: const Icon(Icons.payment),
+                            //   label: const Text('Pay Now'),
+                            //   style: ElevatedButton.styleFrom(
+                            //     backgroundColor: Colors.green,
+                            //     foregroundColor: Colors.white,
+                            //     padding: const EdgeInsets.symmetric(
+                            //       vertical: 14,
+                            //     ),
+                            //     textStyle: const TextStyle(fontSize: 16),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 8),
               Text(
                 'Select your payment method: ',
@@ -49,210 +99,89 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
               ),
               const SizedBox(height: 10),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: <Widget>[
-                  SizedBox(
-                    width: 250,
-                    child: RadioListTile<CardType>(
-                      selectedTileColor: Colors.greenAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      tileColor: Theme.of(context).colorScheme.secondary,
-                      activeColor: Theme.of(context).colorScheme.inversePrimary,
-                      title: Row(
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/cards/master_card.jpg',
-                            width: 30,
-                            height: 30,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            'MasterCard',
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.inversePrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      value: CardType.mastercard,
-                      groupValue: _cardType,
-                      onChanged: (CardType? cardType) {
-                        setState(() {
-                          _cardType = cardType;
-                          isCardSelected = true;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 250,
-                    child: RadioListTile<CardType>(
-                      selectedTileColor: Colors.greenAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      tileColor: Theme.of(context).colorScheme.secondary,
-                      activeColor: Theme.of(context).colorScheme.inversePrimary,
-                      title: Row(
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/cards/visa.jpg',
-                            width: 30,
-                            height: 30,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            'Visa',
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.inversePrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      value: CardType.visa,
-                      groupValue: _cardType,
-                      onChanged: (CardType? cardType) {
-                        setState(() {
-                          _cardType = cardType;
-                          isCardSelected = true;
-                        });
-                      },
-                    ),
-                  ),
-                ],
+              _buildCardButton(
+                context: context,
+                imagePath: 'assets/cards/master_card.jpg',
+                label: 'Card',
+                type: CardType.card,
               ),
               const SizedBox(height: 10),
-              Visibility(
-                visible: isCardSelected,
-                child: CreditCardWidget(
-                  enableFloatingCard: true,
-                  cardNumber: cardNumber,
-                  expiryDate: expiryDate,
-                  cardHolderName: cardHolderName,
-                  cvvCode: cvvCode,
-                  showBackView: showBackView,
-                  onCreditCardWidgetChange:
-                      (CreditCardBrand creditCardBrand) {},
-                  isHolderNameVisible: true,
-                  obscureCardCvv: true,
-                  obscureInitialCardNumber: true,
-                  isSwipeGestureEnabled: true,
-                  cardType: _cardType,
-                ),
+              _buildCardButton(
+                context: context,
+                imagePath: 'assets/cards/esewa.png',
+                label: 'Esewa',
+                type: CardType.esewa,
               ),
-              Visibility(
-                visible: isCardSelected,
-                child: CreditCardForm(
-                  cardNumber: cardNumber,
-                  expiryDate: expiryDate,
-                  cardHolderName: cardHolderName,
-                  cvvCode: cvvCode,
-                  onCreditCardModelChange: (CreditCardModel creditCardModel) {
-                    setState(() {
-                      cardNumber = creditCardModel.cardNumber;
-                      expiryDate = creditCardModel.expiryDate;
-                      cardHolderName = creditCardModel.cardHolderName;
-                      cvvCode = creditCardModel.cvvCode;
-                    });
-                  },
-                  formKey: formKey,
-                ),
+              const SizedBox(height: 10),
+              _buildCardButton(
+                context: context,
+                imagePath: 'assets/cards/khalti.png',
+                label: 'Khalti',
+                type: CardType.khalti,
               ),
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        title: Text(
-                          'Are you sure you want to continue?',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                        ),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Card Number: $cardNumber'),
-                              Text('Expiry Date: $expiryDate'),
-                              Text('Card Holder Name: $cardHolderName'),
-                              Text('CVV: $cvvCode'),
-                            ],
-                          ),
-                        ),
-                        contentTextStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: const ButtonStyle(
-                              backgroundColor: WidgetStatePropertyAll<Color>(
-                                Colors.red,
-                              ),
-                            ),
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inversePrimary,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<Widget>(
-                                  builder: (BuildContext context) =>
-                                      const OrderPlacedPage(),
-                                ),
-                              );
-                            },
-                            style: const ButtonStyle(
-                              backgroundColor: WidgetStatePropertyAll<Color>(
-                                Colors.greenAccent,
-                              ),
-                            ),
-                            child: Text(
-                              'Yes',
-                              style: TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inversePrimary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                style: const ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color>(
-                    Colors.greenAccent,
-                  ),
-                  alignment: Alignment.bottomCenter,
-                ),
-                child: const Text(
-                  'Confirm Payment!',
-                  style: TextStyle(
-                    // color: Theme.of(context).colorScheme.inversePrimary,
-                    color: Colors.black,
-                  ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPriceRow(String label, String value, {bool isBold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCardButton({
+    required BuildContext context,
+    required String imagePath,
+    required String label,
+    required CardType type,
+  }) {
+    return SizedBox(
+      width: 150,
+      child: Center(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            elevation: 2,
+          ),
+          onPressed: () {
+            setState(() {});
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(imagePath, width: 30, height: 30),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontSize: 16,
                 ),
               ),
             ],

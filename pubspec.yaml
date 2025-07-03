@@ -52,6 +52,8 @@ dependencies:
   cloud_firestore: ^5.6.8
   flutter_launcher_icons: ^0.14.4
   flutter_stripe: ^11.5.0
+  esewa_flutter_sdk:
+    path: ./esewa_flutter_sdk
 
 dev_dependencies:
   flutter_test:
