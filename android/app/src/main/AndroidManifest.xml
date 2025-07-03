@@ -11,6 +11,7 @@
         android:label="shopping_app"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" 
         android:icon="@mipmap/ic_launcher">
 
         <activity

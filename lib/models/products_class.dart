@@ -1,4 +1,5 @@
 class ProductsClass {
+  late final int productID;
   late final String productName;
   late final String description;
   late final String imagePath;
@@ -10,6 +11,7 @@ class ProductsClass {
   int itemQuantity;
 
   ProductsClass({
+    required this.productID,
     required this.productName,
     required this.description,
     required this.imagePath,

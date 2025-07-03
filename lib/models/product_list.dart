@@ -3,6 +3,7 @@ import 'package:shopping_app/models/products_class.dart';
 class ProductsList {
   final List<ProductsClass> _products = <ProductsClass>[
     ProductsClass(
+      productID: 1,
       productName: 'Smart Phone',
       description:
           'Experience cutting-edge performance with our latest smartphone, featuring a vibrant display, powerful processor, and long-lasting battery life.',
@@ -15,6 +16,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 2,
       productName: 'Face Wash',
       description:
           'Revitalize your skin with our dermatologist-approved face wash, designed to gently cleanse, reduce acne, and promote a radiant complexion.',
@@ -27,6 +29,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 3,
       productName: 'GTA V',
       description:
           'Step into the thrilling world of Grand Theft Auto V, an action-packed open-world game full of missions, chaos, and unforgettable characters.',
@@ -39,6 +42,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 4,
       productName: 'Keyboard',
       description:
           'Upgrade your typing experience with this hot-swappable mechanical keyboard, featuring tactile switches and customizable RGB lighting.',
@@ -51,6 +55,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 5,
       productName: 'Wireless Earbuds',
       description:
           'Compact and comfortable earbuds with high-fidelity sound and long battery life.',
@@ -63,6 +68,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 6,
       productName: 'Yoga Mat',
       description:
           'Non-slip, eco-friendly yoga mat ideal for both beginners and experts.',
@@ -75,6 +81,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 7,
       productName: 'Blender',
       description: 'Powerful blender perfect for smoothies, sauces, and soups.',
       imagePath: 'assets/shopping/blender.webp',
@@ -86,6 +93,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 8,
       productName: 'Bluetooth Speaker',
       description: 'Portable speaker with rich bass and water resistance.',
       imagePath: 'assets/shopping/speaker.jpg',
@@ -97,6 +105,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 9,
       productName: 'Denim Jacket',
       description: 'Classic denim jacket that pairs well with any outfit.',
       imagePath: 'assets/shopping/jacket.jpg',
@@ -108,6 +117,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 10,
       productName: 'Cookware Set',
       description: 'Durable non-stick cookware set including pans and pots.',
       imagePath: 'assets/shopping/cookware.jpg',
@@ -119,6 +129,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 11,
       productName: 'LED Desk Lamp',
       description:
           'Adjustable LED lamp with touch control and brightness settings.',
@@ -131,6 +142,7 @@ class ProductsList {
       itemQuantity: 0,
     ),
     ProductsClass(
+      productID: 12,
       productName: 'Trekking Shoes',
       description: 'Waterproof shoes designed for hiking and rough terrains.',
       imagePath: 'assets/shopping/trekkingshoes.jpg',

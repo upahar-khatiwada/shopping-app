@@ -10,7 +10,7 @@ import 'package:shopping_app/themes/theme_provider.dart';
 class StripeService {
   StripeService._();
 
-  static final StripeService instance = StripeService._();
+  static final StripeService stripeInstance = StripeService._();
 
   Future<void> makePayment(BuildContext context, double amount) async {
     try {

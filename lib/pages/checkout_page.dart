@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/models/cart_model.dart';
-import 'package:shopping_app/pages/order_placed_page.dart';
+import 'package:shopping_app/services/esewa_service.dart';
 import 'package:shopping_app/services/stripe_service.dart';
 
 enum CardType { card, esewa, khalti }
@@ -14,6 +14,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  double tempAmount = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +34,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             children: <Widget>[
               Consumer<CartModel>(
                 builder: (BuildContext context, CartModel cart, Widget? child) {
+                  tempAmount = cart.totalPrice;
                   return Visibility(
                     visible: cart.getDeliveryLocation.isNotEmpty,
                     child: Card(
@@ -104,6 +106,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 imagePath: 'assets/cards/master_card.jpg',
                 label: 'Card',
                 type: CardType.card,
+                onTap: () async {
+                  // print('test');
+                  await StripeService.stripeInstance.makePayment(
+                    context,
+                    tempAmount + 9.99,
+                  );
+                },
               ),
               const SizedBox(height: 10),
               _buildCardButton(
@@ -111,6 +120,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 imagePath: 'assets/cards/esewa.png',
                 label: 'Esewa',
                 type: CardType.esewa,
+                onTap: () {
+                  EsewaService.esewaInstance.makeEsewaPayment(
+                    context,
+                    tempAmount + 9.99,
+                  );
+                },
               ),
               const SizedBox(height: 10),
               _buildCardButton(
@@ -118,6 +133,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 imagePath: 'assets/cards/khalti.png',
                 label: 'Khalti',
                 type: CardType.khalti,
+                onTap: () {},
               ),
             ],
           ),
@@ -155,6 +171,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     required String imagePath,
     required String label,
     required CardType type,
+    required void Function()? onTap,
   }) {
     return SizedBox(
       width: 150,
@@ -169,9 +186,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             elevation: 2,
           ),
-          onPressed: () {
-            setState(() {});
-          },
+          onPressed: onTap,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

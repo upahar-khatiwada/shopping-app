@@ -9,7 +9,6 @@ import 'package:shopping_app/components/de_bouncer.dart';
 import 'package:shopping_app/components/un_focus_on_tap.dart';
 import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/pages/checkout_page.dart';
-import 'package:shopping_app/services/stripe_service.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({super.key});
@@ -77,9 +76,9 @@ class _LocationPageState extends State<LocationPage> {
   }
 
   void autoCompleteWorld(String query) async {
-    print('test');
+    // print('test');
     final String? accessToken = dotenv.env['LOCATION_IQ_API_KEY'];
-    print(accessToken);
+    // print(accessToken);
 
     http.Response response = await http.get(
       Uri.parse(
@@ -110,6 +109,18 @@ class _LocationPageState extends State<LocationPage> {
     final String? accessToken = dotenv.env['ACCESS_TOKEN'];
     // const String lat = '28.3949';
     // const String lon = '84.1240';
+
+    if (lat == null || lon == null) {
+      print('Missing lat/lon');
+      await getLocation();
+      return;
+    }
+
+    if (accessToken == null) {
+      print('Missingaccess token.');
+      await getLocation();
+      return;
+    }
 
     http.Response response = await http.get(
       Uri.parse(
@@ -176,22 +187,22 @@ class _LocationPageState extends State<LocationPage> {
                         return const Iterable<String>.empty();
                       }
                       // uncomment this for galli maps
-                      // _deBouncer.run(
-                      //   () => autoCompleteGalliMaps(textEditingValue.text),
-                      // );
-                      // return possibleAutoComplete.where((String option) {
-                      //   return option.toLowerCase().contains(
-                      //     textEditingValue.text.toLowerCase(),
-                      //   );
-                      // });
                       _deBouncer.run(
-                        () => autoCompleteWorld(textEditingValue.text),
+                        () => autoCompleteGalliMaps(textEditingValue.text),
                       );
-                      return possibleAutoCompleteWorld.where((String option) {
+                      return possibleAutoComplete.where((String option) {
                         return option.toLowerCase().contains(
                           textEditingValue.text.toLowerCase(),
                         );
                       });
+                      // _deBouncer.run(
+                      //   () => autoCompleteWorld(textEditingValue.text),
+                      // );
+                      // return possibleAutoCompleteWorld.where((String option) {
+                      //   return option.toLowerCase().contains(
+                      //     textEditingValue.text.toLowerCase(),
+                      //   );
+                      // });
                     },
                     onSelected: (String selectedLocation) {
                       Provider.of<CartModel>(
@@ -199,10 +210,11 @@ class _LocationPageState extends State<LocationPage> {
                         listen: false,
                       ).deliveryLocation = selectedLocation;
                       // locationSearchController.text = selectedLocation;
-                      possibleAutoCompleteWorld.clear();
+                      // possibleAutoCompleteWorld.clear();
 
                       // uncomment this for galli maps
-                      // possibleAutoComplete.clear();
+                      locationSearchController.text = selectedLocation;
+                      possibleAutoComplete.clear();
                     },
                     fieldViewBuilder:
                         (

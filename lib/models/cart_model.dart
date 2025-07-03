@@ -19,6 +19,26 @@ class CartModel extends ChangeNotifier {
     return totalCountOfItems;
   }
 
+  String getID() {
+    String temp = '';
+
+    for (ProductsClass product in items) {
+      temp += '${product.productID.toString()}, ';
+    }
+
+    return temp;
+  }
+
+  String getName() {
+    String temp = '';
+
+    for (ProductsClass product in items) {
+      temp += '${product.productName}, ';
+    }
+
+    return temp;
+  }
+
   double get totalPrice {
     double totPrice = 0;
     for (int i = 0; i < itemCount; i++) {
