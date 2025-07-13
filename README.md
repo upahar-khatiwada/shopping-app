@@ -142,3 +142,11 @@ flutter run
 ```
 
 ---
+
+## 📥 Download APK
+
+You can download the prebuilt APK file from the `app_folder/` directory and install it directly on your Android device.
+
+> ⚠️ **Note:** This application is currently built and tested for **Android only**. Compatibility with iOS has not been verified.
+
+---
