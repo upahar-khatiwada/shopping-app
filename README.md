@@ -16,14 +16,9 @@ A simple shopping app built using **Flutter** for the frontend and **Firebase** 
 - ✅ **Simple Home Screen with Logout Option**
 
 ---
-
-
-## 🎥 Video Demo
+<!-- ## 🎥 Video Demo -->
 <!-- https://github.com/user-attachments/assets/ce5f9bf2-b4c4-4965-bfbb-3fede8e3f43b -->
-https://github.com/user-attachments/assets/699e37e6-4cb0-49e9-a422-645125d45435
-
-
----
+<!--https://github.com/user-attachments/assets/699e37e6-4cb0-49e9-a422-645125d45435 -->
 
 ## 📸 Screenshots
 
@@ -38,7 +33,7 @@ https://github.com/user-attachments/assets/699e37e6-4cb0-49e9-a422-645125d45435
 ---
 
 ### ⚙️ Settings Page
-<img src="https://github.com/user-attachments/assets/79d6c8c5-d780-49ba-8268-a4af8f3d5fe4" width="400"/>
+<img src="https://github.com/user-attachments/assets/c09b6373-3df9-4d91-ac97-a18e3f3ec2a9" width="400"/>
 
 ---
 
@@ -58,7 +53,7 @@ https://github.com/user-attachments/assets/699e37e6-4cb0-49e9-a422-645125d45435
 ---
 
 ### 💳 Checkout Page
-<img src="https://github.com/user-attachments/assets/ffd1c67f-8c9d-4b9a-913c-c067cdafea40" width="400"/>
+<img src="https://github.com/user-attachments/assets/3c5fd054-3604-4457-8b6d-fe7bbd2381f7" width="400"/>
 
 ---
 
@@ -109,6 +104,10 @@ ACCESS_TOKEN= access this from gallimaps site
 STRIPE_PUBLISHABLE_KEY= access this from stripe
 STRIPE_SECRET_KEY= access this from stripe
 LOCATION_IQ_API_KEY= access this from locationiq site
+CLIENT_ID_ESEWA= access from esewa
+SECRET_KEY_ESEWA= access from esewa
+SECRET_KEY_KHALTI= access from khalti
+PUBLIC_KEY_KHALTI= access from khalti
 ```
 
 ### 3. Configure `env.gradle` for Android
